@@ -1,14 +1,14 @@
 #include "shell.h"
 
 /**
- * getenv - this function is used to
+ * get_environ - this function is used to
  * retrieve the value of an environment variable.
  * @info: rep the structure that is used to maintain
  * constant function prototype.
  * Return: will always return 0 if the environ
  * can not be retrieved.
  */
-char **getenv(info_t *info)
+char **get_environ(info_t *info)
 {
 	if (!info->environ || info->env_changed)
 	{
