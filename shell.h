@@ -47,6 +47,11 @@ list_t;
 /**
  * struct pass info - this is a function that contains
  * pseudo-arguments.
+ * @program_name: name of the executable
+ * @input_line: pointer to the input read for _getline
+ * @command_name: pointer to first command typed by user
+ * @tokens: pointer to array of tokenized input
+ * @exec_counter: number of executed commands
  * @arg: rep a string that has been essentially generated
  * which contains arguments.
  * @argv: rep an array of strings generated
@@ -90,7 +95,13 @@ typedef struct passinfo
 	int histcount;
 	int cmd_buf_type;
 	char **cmd_buf;
+	char *program_name;
+	char *input_line;
+	char **tokens;
+	char *command_name;
+	char **env;;
 } info_t;
+program_data;
 
 #define INFO_INIT
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, \
@@ -104,15 +115,93 @@ typedef struct passinfo
  */
 typedef struct builtin
 {
-	char *type;
-	int (*func)(info_t *);
-}
-builtin_table;
+	char *builtin;
+	int (*function)(program_data *data);
+} builtins;
 
 int hsh(info_t *, char **);
-int find_builtin(info_t *);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
+
+
+/*======== expand.c ========*/
+
+
+/* expand variables */
+void expand_variables(program_data *data);
+
+/* expand aliases */
+void expand_alias(program_data *data);
+
+/* append string at buffer end */
+int buffer_add(char *str_to_add, char *buffer);
+
+
+/*======== str_tok.c ========*/
+
+
+/* separates strings with delimiters */
+char *_strtok(char *delim, char *line);
+
+/* detaches the string by applying a designed delimiter */
+void tokenize(program_data *data);
+
+
+/*======== execute.c ========*/
+
+
+/* execute command with its entire path variables */
+int execute(program_data *data);
+
+
+/*======== builtins_list.c ========*/
+
+
+/* finds match and execute the associate builtin */
+int builtins_list(program_data *data);
+
+
+/*======== find_path.c ========*/
+
+
+/* find program in path */
+int find_program(program_data *data);
+
+/* tokenize path in directories */
+char **tokenize_path(program_data *data);
+
+
+/*======== builtins_more.c ========*/
+
+
+/* program exit with status */
+int builtin_exit(program_data *data);
+
+/* change current directory */
+int builtin_cd(program_data *data);
+
+/* set work directory */
+int set_work_directory(program_data *data);
+
+/* add, remove or display aliases */
+int builtin_alias(program_data *data);
+
+/* displays environment where shell runs */
+int builtin_help(program_data *data);
+
+
+/*======== builtins_env.c ========*/
+
+
+/* displays the environment where the shell runs */
+int builtins_env(program_data *data);
+
+/* override or create variable of environment */
+int builtin_set_env(program_data *data);
+
+/* delete a variable of environment */
+int builtin_unset_env(program_data *data);
+
 
 int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
@@ -134,15 +223,12 @@ int _putchar(char);
 char *_strncpy(char *, char *, int);
 char *_strncat(char *, char *, int);
 char *_strchr(char *, char);
-char **strtow(char *, char *);
-char **strtow2(char *, char);
 char *_memset(char *, char, unsigned int);
 void ffree(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 int bfree(void **);
 
 int interactive(info_t *t);
-int is_delim(char, char *);
 int _isalpha(int);
 int _atoi(char *);
 
@@ -152,25 +238,18 @@ int print_d(int, int);
 char *convert_number(long int, int, int);
 void remove_comments(char *);
 
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
-
 int _myhistory(info_t *);
 int _myalias(info_t *);
 
-ssize_t get_input(info_t *);
-int _getline(info_t *, char **, size_t *);
-void siginHandler(int);
+/*======== _getline.c ========*/
+
+int _getline(program_data *data);
 
 void clear_info(info_t *);
 void set_info(info_t *, char **);
 void free_info(info_t *int);
 
 char **getenv(info_t *, const char *);
-int _myenv(info_t *);
-int _mysetenv(info_t *);
-int _myunsetenv(info_t *);
 int populate_env_list(info_t *);
 
 char **get_environ(info_t *);
