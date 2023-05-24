@@ -124,8 +124,6 @@ int hsh(info_t *, char **);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
 
-<<<<<<< HEAD
-
 /*======== expand.c ========*/
 
 
@@ -205,7 +203,6 @@ int builtin_set_env(program_data *data);
 int builtin_unset_env(program_data *data);
 
 
-=======
 /* toem_parser.c */
 int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
