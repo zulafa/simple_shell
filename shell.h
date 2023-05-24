@@ -124,8 +124,6 @@ int hsh(info_t *, char **);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
 
-<<<<<<< HEAD
-
 /*======== expand.c ========*/
 
 
@@ -204,28 +202,6 @@ int builtin_set_env(program_data *data);
 /* delete a variable of environment */
 int builtin_unset_env(program_data *data);
 
-
-=======
-/* toem_parser.c */
-int is_cmd(info_t *, char *);
-char *dup_chars(char *, int, int);
-char *find_path(info_t *, char *, char *);
-
-/* loophsh.c */
-int loophsh(char **);
-
-/* toem_errors.c */
-void _eputs(char *);
-int _eputchar(char);
-int _putfd(char c, int fd);
-int _putsfd(char *str, int fd);
-
-/* toem_string.c */
-int _strlen(char *);
-int _strcmp(char *, char *);
-char *starts_with(const char *, const char *);
-char *strcat(char *, char *);
-
 /* toem_string1.c */
 char *strcpy(char *, char *);
 char *_strcpy(char *, char *);
@@ -251,16 +227,6 @@ int interactive(info_t *t);
 int _isalpha(int);
 int _atoi(char *);
 
-/*toem_errors1.c */
-int _erratoi(char *);
-void print_error(info_t *, char *);
-int print_d(int, int);
-char *convert_number(long int, int, int);
-void remove_comments(char *);
-
-int _myhistory(info_t *);
-int _myalias(info_t *);
-
 /*======== _getline.c ========*/
 
 int _getline(program_data *data);
@@ -278,33 +244,4 @@ int populate_env_list(info_t *);
 char **get_environ(info_t *);
 int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);
-
-/*toem_history.c */
-char *get_history_file(info_t *info);
-int write_history(info_t *info);
-int read_history(info_t *info);
-int build_history_list(info_t *info, char *buf, int linecount);
-int renumber_history(info_t *info);
-
-/* toem_lists.c */
-list_t *add_node(list_t **, const char *, int);
-list_t *add_node_end(list_t **, const char *, int);
-size_t print_list_str(const list_t *);
-int delete_node_at_index(list_t **, unsigned int);
-void free_list(list_t **);
-
-/* toem_lists1.c */
-size_t list_len(const list_t *);
-char **list_to_strings(list_t *);
-size_t print_list(const list_t *);
-list_t *node_starts_with(list_t *, char *, char);
-ssize_t get_node_index(list_t *, list_t *);
-
-/* toem_vars.c */
-int is_chain(info_t *, char *, size_t *);
-void check_chain(info_t *, char *, size_t *, size_t, size_t);
-int replace_alias(info_t *);
-int replace_vars(info_t *);
-int replace_string(char **, char *);
-
 #endif
