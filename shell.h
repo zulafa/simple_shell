@@ -95,13 +95,8 @@ typedef struct passinfo
 	int histcount;
 	int cmd_buf_type;
 	char **cmd_buf;
-	char *program_name;
-	char *input_line;
-	char **tokens;
-	char *command_name;
-	char **env;;
 } info_t;
-program_data;
+
 
 #define INFO_INIT
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, \
@@ -115,97 +110,17 @@ program_data;
  */
 typedef struct builtin
 {
-	char *builtin;
-	int (*function)(program_data *data);
-} builtins;
+	char *type;
+	int (*func)(info_t *);
+} builtin_table;
 
-/*toem_shloop.c */
+/*shloop.c */
 int hsh(info_t *, char **);
+int find_builtin(info_t *);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
 
-/*======== expand.c ========*/
-
-
-/* expand variables */
-void expand_variables(program_data *data);
-
-/* expand aliases */
-void expand_alias(program_data *data);
-
-/* append string at buffer end */
-int buffer_add(char *str_to_add, char *buffer);
-
-
-/*======== str_tok.c ========*/
-
-
-/* separates strings with delimiters */
-char *_strtok(char *delim, char *line);
-
-/* detaches the string by applying a designed delimiter */
-void tokenize(program_data *data);
-
-
-/*======== execute.c ========*/
-
-
-/* execute command with its entire path variables */
-int execute(program_data *data);
-
-
-/*======== builtins_list.c ========*/
-
-
-/* finds match and execute the associate builtin */
-int builtins_list(program_data *data);
-
-
-/*======== find_path.c ========*/
-
-
-/* find program in path */
-int find_program(program_data *data);
-
-/* tokenize path in directories */
-char **tokenize_path(program_data *data);
-
-
-/*======== builtins_more.c ========*/
-
-
-/* program exit with status */
-int builtin_exit(program_data *data);
-
-/* change current directory */
-int builtin_cd(program_data *data);
-
-/* set work directory */
-int set_work_directory(program_data *data);
-
-/* add, remove or display aliases */
-int builtin_alias(program_data *data);
-
-/* displays environment where shell runs */
-int builtin_help(program_data *data);
-
-
-/*======== builtins_env.c ========*/
-
-
-/* displays the environment where the shell runs */
-int builtins_env(program_data *data);
-
-/* override or create variable of environment */
-int builtin_set_env(program_data *data);
-
-/* delete a variable of environment */
-int builtin_unset_env(program_data *data);
-
-<<<<<<< HEAD
-=======
-
-/* toem_parser.c */
+/* parser.c */
 int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
 char *find_path(info_t *, char *, char *);
@@ -213,59 +128,112 @@ char *find_path(info_t *, char *, char *);
 /* loophsh.c */
 int loophsh(char **);
 
-/* toem_errors.c */
+/* errors.c */
 void _eputs(char *);
 int _eputchar(char);
 int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
 
-/* toem_string.c */
+/* string.c */
 int _strlen(char *);
 int _strcmp(char *, char *);
 char *starts_with(const char *, const char *);
 char *strcat(char *, char *);
 
->>>>>>> 3ddb0f2d59112d11f5b119ee1cde828d57d32593
-/* toem_string1.c */
+/* string1.c */
 char *strcpy(char *, char *);
 char *_strcpy(char *, char *);
 char *_strdup(const char *);
 void _puts(char *);
 int _putchar(char);
 
-/* toem_exits.c */
+/* exits.c */
 char *_strncpy(char *, char *, int);
 char *_strncat(char *, char *, int);
 char *_strchr(char *, char);
 
-/* toem_realloc.c */
+/* tokenizer.c */
+char **strtow(char *, char *);
+char **strtow2(char *, char);
+
+/* realloc.c */
 char *_memset(char *, char, unsigned int);
 void ffree(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 
-/* toem_memory.c */
+/* memory.c */
 int bfree(void **);
 
-/*toem_atoi.c */
+/*atoi.c */
 int interactive(info_t *t);
+int is_delim(char, char *);
 int _isalpha(int);
 int _atoi(char *);
 
-/*======== _getline.c ========*/
+/*errors1.c */
+int _erratoi(char *);
+void print_error(info_t *, char *);
+int print_d(int, int);
+char *convert_number(long int, int, int);
+void remove_comments(char *);
 
-int _getline(program_data *data);
+/* builtin.c */
+int _myexit(info_t *);
+int _mycd(info_t *);
+int _myhelp(info_t *);
 
-/* toem_getinfo.c */
+/* builtin1.c */
+int _myhistory(info_t *);
+int _myalias(info_t *);
+
+/* getline.c */
+ssize_t get_input(info_t *);
+int _getline(info_t *, char **, size_t *);
+void sigintHandler(int);
+
+/* getinfo.c */
 void clear_info(info_t *);
 void set_info(info_t *, char **);
 void free_info(info_t *int);
 
-/* toem_environ.c */
+/* environ.c */
 char **getenv(info_t *, const char *);
+int _myenv(info_t *);
+int _mysetenv(info_t *);
+int _myunsetenv(info_t *);
 int populate_env_list(info_t *);
 
-/*toem_getenv.c */
+/*getenv.c */
 char **get_environ(info_t *);
 int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);
+
+/* history.c */
+char *get_history_file(info_t *info);
+int write_history(info_t *info);
+int read_history(info_t *info);
+int build_history_list(info_t *info, char *buf, int linecount);
+int renumber_history(info_t *info);
+
+/* lists.c */
+list_t *add_node(list_t **, const char *, int);
+list_t *add_node_end(list_t **, const char *, int);
+size_t print_list_str(const list_t *);
+int delete_node_at_index(list_t **, unsigned int);
+void free_list(list_t **);
+
+/*lists1.c */
+size_t list_len(const list_t *);
+char **list_to_strings(list_t *);
+size_t print_list(const list_t *);
+list_t *node_starts_with(list_t *, char *, char);
+ssize_t get_node_index(list_t *, list_t *);
+
+/* vars.c */
+int is_chain(info_t *, char *, size_t *);
+void check_chain(info_t *, char *, size_t *, size_t, size_t);
+int replace_alias(info_t *);
+int replace_vars(info_t *);
+int replace_string(char **, char *);
+
 #endif
