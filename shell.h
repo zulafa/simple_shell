@@ -202,6 +202,30 @@ int builtin_set_env(program_data *data);
 /* delete a variable of environment */
 int builtin_unset_env(program_data *data);
 
+<<<<<<< HEAD
+=======
+
+/* toem_parser.c */
+int is_cmd(info_t *, char *);
+char *dup_chars(char *, int, int);
+char *find_path(info_t *, char *, char *);
+
+/* loophsh.c */
+int loophsh(char **);
+
+/* toem_errors.c */
+void _eputs(char *);
+int _eputchar(char);
+int _putfd(char c, int fd);
+int _putsfd(char *str, int fd);
+
+/* toem_string.c */
+int _strlen(char *);
+int _strcmp(char *, char *);
+char *starts_with(const char *, const char *);
+char *strcat(char *, char *);
+
+>>>>>>> 3ddb0f2d59112d11f5b119ee1cde828d57d32593
 /* toem_string1.c */
 char *strcpy(char *, char *);
 char *_strcpy(char *, char *);
