@@ -19,7 +19,7 @@ int is_chain(info_t *info, char *buf, size_t *p)
 		a++;
 		info->cmd_buf_type = CMD_OR;
 	}
-	else if (buf[a] == '&' buf[a + 1] == '&')
+	else if (buf[a] == '&' && buf[a + 1] == '&')
 	{
 		buf[a] = 0;
 		a++;

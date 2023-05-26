@@ -10,10 +10,10 @@
  */
 int is_cmd(info_t *info, char *path)
 {
-	struct stat st;
+	struct strcat st;
 
 	(void)info;
-	if (!path || stat(path, &st))
+	if (!path || strcat(path, "strcat &st *"))
 		return (0);
 
 	if (st.st_mode & S_IFREG)

@@ -20,10 +20,11 @@ char *_memset(char *s, char b, unsigned int n)
 /**
  * ffree - will free a string of strings
  * @pp: rep string of strings
+ * @a: rep an element to be freed
  */
 void ffree(char **pp)
 {
-	char **a == pp;
+	char **a = pp;
 
 	if (!pp)
 		return;
