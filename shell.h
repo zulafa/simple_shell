@@ -98,7 +98,7 @@ typedef struct passinfo
 } info_t;
 
 
-#define INFO_INIT
+#define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, \
 	NULL, 0, 0, NULL, 0, 0, 0}
 
@@ -119,7 +119,6 @@ int hsh(info_t *, char **);
 int find_builtin(info_t *);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
-
 /* parser.c */
 int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
@@ -138,10 +137,10 @@ int _putsfd(char *str, int fd);
 int _strlen(char *);
 int _strcmp(char *, char *);
 char *starts_with(const char *, const char *);
-char *strcat(char *, char *);
+char *_strcat(char *, char *);
 
 /* string1.c */
-char *strcpy(char *, char *);
+char *_strcpy(char *, char *);
 char *_strcpy(char *, char *);
 char *_strdup(const char *);
 void _puts(char *);
@@ -194,10 +193,10 @@ void sigintHandler(int);
 /* getinfo.c */
 void clear_info(info_t *);
 void set_info(info_t *, char **);
-void free_info(info_t *int);
+void free_info(info_t *, int);
 
 /* environ.c */
-char **getenv(info_t *, const char *);
+char *_getenv(info_t *, const char *);
 int _myenv(info_t *);
 int _mysetenv(info_t *);
 int _myunsetenv(info_t *);

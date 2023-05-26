@@ -22,7 +22,7 @@ asm ("mov %1, %0\n\t"
 		fd = open(av[1], O_RDONLY);
 		if (fd == -1)
 		{
-			if (errno == EACCESS)
+			if (errno == EACCES)
 				exit(126);
 			if (errno == ENOENT)
 			{
